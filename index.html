@@ -1,0 +1,75 @@
+<!doctype html>
+<html ng-app="surveyList">
+<head>
+  <title>Survey</title>
+  <script src="lib/angular.js"></script>
+  <script src="app.js"></script>
+
+  <script src="controllers/SurveysController.js"></script>
+  <script src="controllers/PizzaSurveyController.js"></script>
+  <script src="services/SurveysFactory.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <div ng-controller="SurveysCtrl">
+      <div class="row" ng-show="surveys.length">
+        <div class="col-md-12">
+          <h4>Search Survey Respondents</h4>
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <input ng-model="query" type="text" class="form-control" id="survey-name" placeholder="Search">
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+      <div class="col-md-6">
+        <h2 ng-show="surveys.length && filtered.length">Survey Respondent List</h2>
+        <h2 ng-show="surveys.length && !filtered.length">No Matches</h2>
+        <ul>
+          <li ng-repeat="item in filtered = (surveys | filter:query)">
+            <span ng-click="editing = true" ng-hide="editing">
+              {{item.name}} <a ng-click="SurveysFactory.deleteSurvey(item)">Delete</a>
+            </span>
+            <span class="form-group" ng-show="editing" ng-submit="editing = false">
+              <form class="form-inline" role="form">
+                <input type="text" class="form-control input-sm" ng-model="item.name" placeholder="Name" required/>
+                <button class="btn btn-default btn-sm" type="submit">Save</button>
+              </form>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h2>New Survey</h2>
+          <form ng-submit="SurveysFactory.addSurvey()" class="form-inline" role="form">
+            <div class="form-group">
+              <input type="text" ng-model="SurveysFactory.surveyName" class="form-control" id="survey-name" placeholder="Enter name">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-controller="PizzaSurveyCtrl">
+      <div class="col-md-6" ng-show="surveyDoesntLikePizza.length">
+        <h3>Doesn't Like Pizza</h3>
+        <ul>
+          <li ng-repeat="item in surveyDoesntLikePizza = (surveys | filter:{likesPizza: false})">
+            {{item.name}} <a ng-click="addSurveyLikesPizza(item)"> - Surveyor likes pizza -</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6" ng-show="surveyLikesPizza.length">
+        <h3>Likes Pizza</h3>
+        <ul>
+          <li ng-repeat="item in surveyLikesPizza = (surveys | filter:{likesPizza: true})">
+            {{item.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
