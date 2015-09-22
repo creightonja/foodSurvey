@@ -69,6 +69,22 @@
           </li>
         </ul>
       </div>
+      <div class="col-md-6" ng-show="surveyDoesntLikeBurgers.length">
+        <h3>Doesn't Like Burgers</h3>
+        <ul>
+          <li ng-repeat="item in surveyDoesntLikeBurgers = (surveys | filter:{likesBurgers: false})">
+            {{item.name}} <a ng-click="addSurveyLikesBurgers(item)"> - Surveyor likes burgers -</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6" ng-show="surveyLikesBurgers.length">
+        <h3>Likes Burgers</h3>
+        <ul>
+          <li ng-repeat="item in surveyLikesBurgers = (surveys | filter:{likesBurgers: true})">
+            {{item.name}}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </body>

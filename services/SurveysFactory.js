@@ -3,7 +3,7 @@ surveyList.factory('SurveysFactory', function SurveysFactory() {
   factory.surveys = [];
 
   factory.addSurvey = function() {
-    var survey = { name: factory.surveyName, likesPizza: false };
+    var survey = { name: factory.surveyName, likesPizza: false, likesBurgers: false };
     factory.surveys.push(survey);
     factory.surveyName = null;
   };
